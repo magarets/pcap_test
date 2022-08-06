@@ -134,29 +134,30 @@ int main(int argc, char* argv[]) {
 		
 		/* ethernet headers are always exactly 14 bytes */
 		
-		u_char* offset = (u_char*) packet;
 		struct sniff_ethernet* ethernet = (struct sniff_ethernet*) packet; /* The ethernet header */
 		struct sniff_ip* iph = (struct sniff_ip *)(packet += SIZE_ETHERNET);
 		struct sniff_tcp* tcp_ = (struct sniff_tcp*)(packet += SIZE_IP_HEADER); // ip_HL * 4 = 20byte
 		
+		/* payload offset */
+		u_char* offset = (u_char*) packet;
 		offset += (SIZE_ETHERNET + SIZE_IP_HEADER + ((((tcp_->th_offx2) & 0xf0)>>4)*4)); // Payload
 		
+		/* check IPv4 and TCP Protocol */
 		if(find_ethernet_type(ethernet) != 1) continue; // not ipv4
 		if(find_ip_protocol(iph) != 1) continue;
 
 		/* Ethernet Header의 src mac / dst mac */
 
+		//ether_short
 		printf("src mac : ");
 
-		//ether_short
-		
 		for(int i=0; i<ETHER_ADDR_LEN; ++i){
 			printf("%02X ", ethernet->ether_shost[i]);
 		}
 
+		//ether_dhost
 		printf("-> dst mac : ");
 
-		//ether_dhost
 		for(int i=0; i<ETHER_ADDR_LEN; ++i){
 			printf("%02X ", ethernet->ether_dhost[i]);
 		}
@@ -164,18 +165,14 @@ int main(int argc, char* argv[]) {
 		printf("\n");
 
 		/*        -----------------       */
-
 		/* ip header */
 		// ip source	
-		
 		printf("ip_src : %s -> ", inet_ntoa(iph->ip_src));	
 
 		// ip dst
-		
 		printf("ip_dst : %s\n", inet_ntoa(iph->ip_dst));
 
 		/* tcp port */
-
 		printf("src port : %d -> dst port : %d\n", ntohs(tcp_->th_sport), ntohs(tcp_->th_dport));
 
 		/* Payload */
