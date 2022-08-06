@@ -147,7 +147,9 @@ int main(int argc, char* argv[]) {
 		/* Ethernet Header의 src mac / dst mac */
 
 		printf("src mac : ");
+
 		//ether_short
+		
 		for(int i=0; i<ETHER_ADDR_LEN; ++i){
 			printf("%02X ", ethernet->ether_shost[i]);
 		}
@@ -160,16 +162,20 @@ int main(int argc, char* argv[]) {
 		}
 
 		printf("\n");
+
 		/*        -----------------       */
 
 		/* ip header */
 		// ip source	
+		
 		printf("ip_src : %s -> ", inet_ntoa(iph->ip_src));	
 
 		// ip dst
+		
 		printf("ip_dst : %s\n", inet_ntoa(iph->ip_dst));
 
 		/* tcp port */
+
 		printf("src port : %d -> dst port : %d\n", ntohs(tcp_->th_sport), ntohs(tcp_->th_dport));
 
 		/* Payload */
