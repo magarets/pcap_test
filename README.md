@@ -1,4 +1,2 @@
-<h1>개발트랙 첫 번째 과제</h1><br>
-이해하는데 시간을 다 써서<br>
-소스는 하드코딩입니다...<br>
-최적화 하겠읍니다.. T.T<br><br>
+<h1>network packet capture</h1><br>
+- Capture packets that mimic the functionality of the burpsuite
